@@ -27,7 +27,7 @@ class DisplayInterface{
         textGradient.addColorStop("1.0", "red");
 
         ctx.fillStyle = textGradient;
-        ctx.fillText("Wave: " + this.round, canvas.width - 200, 90);
+        ctx.fillText("Wave: " + this.round, canvas.width - 350, 90);
         
         let textGradient2 = ctx.createLinearGradient(0, 0, canvas.width, 0);
         textGradient2.addColorStop("0"," green");
@@ -35,7 +35,7 @@ class DisplayInterface{
         textGradient2.addColorStop("1.0", "yellow");
 
         ctx.fillStyle = textGradient2;
-        ctx.fillText("Health: " + this.health, canvas.width/2 - 350, 90);
+        ctx.fillText("Health: " + this.health, canvas.width/2 - 200, 90);
         
     }
 }
