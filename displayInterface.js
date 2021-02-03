@@ -35,7 +35,7 @@ class DisplayInterface{
         textGradient2.addColorStop("1.0", "yellow");
 
         ctx.fillStyle = textGradient2;
-        ctx.fillText("Health: " + this.health, canvas.width/2 - 200, 90);
+        ctx.fillText("Health: " + this.health, canvas.width/2 - 350, 90);
         
     }
 }
