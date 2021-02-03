@@ -7,6 +7,8 @@ class Projectile{
         this.dy;
         this.da;
         this.db;
+        this.dz;
+        this.dv;
         this.lastX = x;
         this.lastY = y;
         this.targetX = targetX;
@@ -60,8 +62,6 @@ class Projectile{
                 this.checkCollision();
             }
         }
-        
-
     }
 
     draw(){
@@ -82,9 +82,8 @@ class Projectile{
         }
         else if(this.collision == true)
         {
-            const x = playerShield.x;
-            const y = playerShield.y;
-            ctx.strokeStyle = 'red';
+
+            ctx.strokeStyle = '#5d1d1d';
             ctx.lineWidth = 18;
             ctx.beginPath();
             // ctx.moveTo(this.shieldX, this.shieldY);
@@ -94,32 +93,47 @@ class Projectile{
             ctx.fillStyle = 'black';
             ctx.beginPath();
 
-            ctx.rect(this.x - Math.random()*150, this.y - Math.random()*150, Math.random()*100, Math.random()*100);
+            //Digital Glitchy Square Effect
+            ctx.rect(this.x - Math.random()*100, this.y - Math.random()*100, Math.random()*100, Math.random()*100);
             
             ctx.restore();
             ctx.fill();
             ctx.closePath();
 
-            ctx.fillStyle = 'red';
+            // Triangle
+            ctx.fillStyle = "#6e1818";
             ctx.beginPath();
             ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.targetX - this.dist/2, this.targetY + this.dist/2);
-            ctx.lineTo(this.x - 25 + Math.random()*5, this.y - 25 + Math.random()*5);
+            ctx.lineTo(this.targetX, this.targetY-100);
+            ctx.lineTo(this.x - Math.random()*11, this.y - Math.random()*24 + Math.random()*5);
             ctx.fill();
 
-            ctx.strokeStyle = 'FFFF';
+
+            //Circle
+            ctx.fillStyle = "#6e1818";
+            ctx.strokeStyle = "#6e1818";
             ctx.beginPath();
-            ctx.arc(this.x + Math.random()*5, this.y + Math.random()*5, this.radius*2+Math.random()*5, 0, Math.PI * 2);
+            ctx.arc(this.x + Math.random()*6, this.y + Math.random()*6, this.radius*2+Math.random()*2, 0, Math.PI * 2);
             ctx.fill();
         }
     }
 
     checkCollision(){
-        if(this.dist < this.radius + playerShield.radius)
+
+       for(let x = 0; x < mobController.mobs.length; x++)
         {
-            this.collision = true;
-            this.shieldX = playerShield.x;
-            this.shieldY = playerShield.y;
+        
+            this.dz = this.x - mobController.mobs[x].x;
+            this.dv = this.y - mobController.mobs[x].y;
+    
+            this.dist = Math.sqrt(this.dz*this.dz + this.dv*this.dv);
+
+            if(this.dist < this.radius + mobController.mobs[x].radius)
+            {
+                this.collision = true;
+                mobController.mobs[x].takeDamage(this.damage);
+                // playerCharacter.radius++;
+            }
         }
     }
 }

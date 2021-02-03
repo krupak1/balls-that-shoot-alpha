@@ -31,10 +31,18 @@ let i = 0;
  
 let hitTimer = 0;
 
+//Declarations --------------------------------------
 let playerShield = new Player(0);
 let playerCharacter = new Character(0, playerShield);
 playerCharacter.pickupWeapon('basic');
 let proHandler = new ProjectileHandler2();
+let mobController = new MobHandler();
+let display = new DisplayInterface();
+//let fruitHandler = new ProjectileHandler2();
+
+
+
+
 
 const gameState = {
     playerChar: {
@@ -43,6 +51,9 @@ const gameState = {
 }
 let frameCounter = 0;
 let start = Date.now();
+
+
+
 
 //Game Colors
 
@@ -58,9 +69,15 @@ let characterGradient = ctx.createLinearGradient(playerCharacter.x, playerCharac
 characterGradient.addColorStop(1, "#1d402a");
 characterGradient.addColorStop(0, "#67997a");
 
-let projectileGradient = ctx.createLinearGradient(playerCharacter.x, playerCharacter.y, 20, 19);
+let projectileGradient = ctx.createLinearGradient(canvas.width, canvas.height, 20, 19);
 projectileGradient.addColorStop(1, "#49c1e6");
 projectileGradient.addColorStop(0, "#4f68b3");
+
+
+let mobGradient = ctx.createLinearGradient(playerCharacter.x, playerCharacter.y, 20, 19);
+mobGradient.addColorStop(1, "#452f56");
+mobGradient.addColorStop(0, "#655cc1");
+
 
 // Animation Loop
 
@@ -71,13 +88,18 @@ function animate(){
     //test
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    mobController.update();
     playerCharacter.update();
     playerCharacter.draw();
+   
     playerCharacter.weapon.update();
     playerCharacter.weapon.draw();
     playerCharacter.weapon.projectileHandler.update();
     playerShield.update();
     playerShield.draw();
+
+    display.update();
+    display.draw();
 
     frameCounter++;
     requestAnimationFrame(animate);
