@@ -16,13 +16,16 @@ class Projectile{
         this.shieldX;
         this.shieldY;
         this.radius = 8;
-        this.damage = 10;
+        this.damage = 3;
         this.speed = 7;
         this.color = projectileGradient;
         this.dist;
         this.distBackwards;
         this.startTime = Date.now();
         this.collision = false;
+        this.type;
+        this.text;
+        this.duration = 600;
     }
 
     update(){
@@ -65,6 +68,24 @@ class Projectile{
     }
 
     draw(){
+        
+        if(this.type == 'self')
+        {
+            ctx.font = "900 30px Arial-Black, Charcoal, sans-serif";
+            // Create gradient
+            let mobTextGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            mobTextGradient.addColorStop("0"," black");
+            mobTextGradient.addColorStop("0.5", "blue");
+            mobTextGradient.addColorStop("1.0", "red");
+            
+            this.y-=10;
+            ctx.fillStyle = 'red';
+            if(this.type == 'self'){
+                ctx.fillText("-1hp", this.x, this.y-30)
+            }
+    
+        }
+
         if(this.collision == false)
         {
             ctx.strokeStyle = this.color;
@@ -74,6 +95,7 @@ class Projectile{
             ctx.lineTo(this.targetX, this.targetY);
            // ctx.stroke();
         
+           
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -115,6 +137,8 @@ class Projectile{
             ctx.beginPath();
             ctx.arc(this.x + Math.random()*6, this.y + Math.random()*6, this.radius*2+Math.random()*2, 0, Math.PI * 2);
             ctx.fill();
+
+            
         }
     }
 
@@ -131,7 +155,7 @@ class Projectile{
             if(this.dist < this.radius + mobController.mobs[x].radius)
             {
                 this.collision = true;
-                mobController.mobs[x].takeDamage(this.damage);
+                mobController.mobs[x].takeDamage(this.damage, this.text);
                 // playerCharacter.radius++;
             }
         }

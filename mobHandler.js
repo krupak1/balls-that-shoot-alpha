@@ -16,6 +16,7 @@ class MobHandler{
         if(this.mobs.length < 1)
         {
             this.round++;
+            
            // this.tempMobs = [];
                 
             for(let x = 0; x < this.round * 2; x++)
@@ -27,6 +28,7 @@ class MobHandler{
 
             if(this.tempMobs.length > 0){
                 this.tempMobs[0].emit();
+                this.tempMobs[0].health += this.round * 2;
                 this.mobs.push(this.tempMobs[0]);
                 this.tempMobs.splice(0, 1);
                 this.checkHealth();

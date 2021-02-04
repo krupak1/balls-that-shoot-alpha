@@ -31,6 +31,19 @@ const mouseLeft = {
     click: false
 }
 
+const numControls = {
+    num1: false,
+    num2: false,
+    num3: false,
+    num4: false,
+    num5: false,
+    num6: false,
+    num7: false,
+    num8: false,
+    num9: false,
+    num0: false
+}
+
 canvas.addEventListener('mousedown', function(event){
     if(event.button == 2)
     {
@@ -49,12 +62,12 @@ canvas.addEventListener('mousedown', function(event){
 canvas.addEventListener('mouseup', function(event){
     if(event.button == 2)
     {
-    mouseRight.click = false;
+        mouseRight.click = false;
     }
 
     else if(event.button == 0)
     {
-    mouseLeft.click = false;
+        mouseLeft.click = false;
     }
 })
 
@@ -99,9 +112,17 @@ document.addEventListener('keydown', function(event){
         case 's': keyMovement.s = true; break;
         case 'd': keyMovement.d = true; break;
         case ' ': keyMovement.space = true; break;
+        case '1': numControls.num1 = true; break;
+        case '2': numControls.num2 = true; break;
+        case '3': numControls.num3 = true; break;
+        case '4': numControls.num4 = true; break;
+        case '5': numControls.num5 = true; break;
+        case '6': numControls.num6 = true; break;
+        case '7': numControls.num7 = true; break;
+        case '8': numControls.num8 = true; break;
+        case '9': numControls.num9 = true; break;
+        case '0': numControls.num0 = true; break;
     }
-
-    
 
 })
 document.addEventListener('keyup', function(event){
@@ -111,6 +132,16 @@ document.addEventListener('keyup', function(event){
         case 's': keyMovement.s = false; break;
         case 'd': keyMovement.d = false; break;
         case ' ': keyMovement.space = false; break;
+        case '1': numControls.num1 = false; break;
+        case '2': numControls.num2 = false; break;
+        case '3': numControls.num3 = false; break;
+        case '4': numControls.num4 = false; break;
+        case '5': numControls.num5 = false; break;
+        case '6': numControls.num6 = false; break;
+        case '7': numControls.num7 = false; break;
+        case '8': numControls.num8 = false; break;
+        case '9': numControls.num9 = false; break;
+        case '0': numControls.num0 = false; break;
     }
 
 })

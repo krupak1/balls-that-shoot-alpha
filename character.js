@@ -13,6 +13,7 @@ class Character{
         this.weaponY = this.y;
         this.weaponColor = 'black'; 
         this.collision = false;
+        this.collider;
     }
 
 
@@ -69,21 +70,16 @@ class Character{
     }
     
     pickupWeapon(weaponType){
-
+        
         this.weapon = new Weapon('basic', characterX, characterY, this.radius);
 
     }
     draw(){
-        
-    
         ctx.fillStyle = characterGradient;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
-
-
-
     }
 
     checkCollision(){
@@ -100,19 +96,39 @@ class Character{
              {
                  this.collision = true;
                  this.takeDamage();
+                 mobController.mobs[x].x += Math.random()*5 - 2.5;
+                 mobController.mobs[x].y += Math.random()*5 - 2.5;
              }
          }
      }
 
-     takeDamage(){
+          
+    drawHit(text){
+        let flash = new Projectile(this.x, this.y, this.x, this.y);
+
+        flash.color = 'black';
+        flash.radius = this.radius;
+        flash.duration = 150;
+        flash.text = 'self';
+        flash.type = 'self';
+        hitEffects.push(flash);
+
+        // ctx.fillStyle = 'red';
+        // if(text == 'self'){
+        //     ctx.fillText("-" + this.damage, this.x, this.y-30)
+        // }
+
+
+    }
+
+     takeDamage(damage){
          this.health--;
         // this.radius--;
          this.x += Math.random()*5 - 2.5;
          this.y += Math.random()*5 - 2.5;
          this.color = 'black';
-
+         this.drawHit(damage);
      }
-     
-    
+
 }
 

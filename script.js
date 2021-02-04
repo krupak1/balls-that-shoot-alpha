@@ -38,6 +38,7 @@ playerCharacter.pickupWeapon('basic');
 let proHandler = new ProjectileHandler2();
 let mobController = new MobHandler();
 let display = new DisplayInterface();
+let hitEffects = new ProjectileHandler2();
 //let fruitHandler = new ProjectileHandler2();
 
 
@@ -95,6 +96,7 @@ function animate(){
     playerCharacter.weapon.update();
     playerCharacter.weapon.draw();
     playerCharacter.weapon.projectileHandler.update();
+    hitEffects.update();
     playerShield.update();
     playerShield.draw();
 
