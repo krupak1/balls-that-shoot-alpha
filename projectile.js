@@ -26,8 +26,18 @@ class Projectile{
         this.type;
         this.text;
         this.duration = 600;
+        this.weapon = 'semi-automatic';
+        this.mobsHit;
+        this.mobsHandler;
+        this.handler;
+        this.distT;
     }
 
+    init(){
+        this.mobsHit = new ProjectileHandler2();
+        this.mobsHandler = new MobHandler();
+
+    }
     update(){
 
         let dx = this.x - this.targetX;
@@ -42,14 +52,27 @@ class Projectile{
         let theta = Math.atan2(dy, dx);
         this.angle = theta;
         this.dist = Math.sqrt(da*da + db*db);
+
+        this.distT = Math.sqrt(dx*dx + dy*dy);
         
         this.lastX = this.x;
         this.lastY = this.y;
+
+        if(this.weapon.type == 'gattling-gun'){
+          //  if(Math.abs(this.targetX) - Math.abs(this.x) > 50){
+              if(this.distT > 15){
+                this.x += Math.random()*this.handler.projectiles.length - this.handler.projectiles.length/2;
+                this.y += Math.random()*this.handler.projectiles.length - this.handler.projectiles.length/2;
+                this.targetX += Math.random()*this.handler.projectiles.length - this.handler.projectiles.length/2;
+                this.targetY += Math.random()*this.handler.projectiles.length - this.handler.projectiles.length/2;
+            }
+        }
 
         for(let x = 1; x < this.speed; x++)
         {
             // if(this.collision == false)
             {
+                let modz = Math.random()*42;
                 dx = this.x - this.targetX;
                 dy = this.y - this.targetY;
                 this.x -= dx/(21-x);
@@ -152,13 +175,27 @@ class Projectile{
     
             this.dist = Math.sqrt(this.dz*this.dz + this.dv*this.dv);
 
-            if(this.dist < this.radius + mobController.mobs[x].radius)
-            {
-                this.collision = true;
+            if(this.type == 'self' && this.dist < this.radius + mobController.mobs[x].radius){
                 mobController.mobs[x].takeDamage(this.damage, this.text);
-                // playerCharacter.radius++;
+                this.collision = true;
+            }
+
+            else if(this.dist < this.radius + mobController.mobs[x].radius)
+            {
+                if(this.type != 'self'){
+                     if(this.mobsHit.projectiles.length < 6){
+                 
+                        mobController.mobs[x].takeDamage(this.damage, this.text);
+                        this.collision = true;
+                        if(this.mobsHit.checkProjectiles(mobController.mobs[x]) != 1){
+                            this.mobsHit.push(mobController.mobs[x]);
+                        }
+            
+                     }
+                 }
             }
         }
     }
+
 }
 

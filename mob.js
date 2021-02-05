@@ -12,12 +12,16 @@ class Mob{
         this.targetX;
         this.targetY;
         this.dead = false;
+        this.hitsTaken = 0;
     }
 
     takeDamage(damage, text){
-        this.health -= damage;
-        mobController.damageTaken++;
-        this.mobHitEffect(damage, text);
+        if(this.hitsTaken < 6){
+            this.health -= damage;
+            mobController.damageTaken++;
+            this.mobHitEffect(damage, text);
+        }
+        else this.hitsTaken++;
     }
 
     update(){

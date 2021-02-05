@@ -39,6 +39,7 @@ let proHandler = new ProjectileHandler2();
 let mobController = new MobHandler();
 let display = new DisplayInterface();
 let hitEffects = new ProjectileHandler2();
+let proHandler2 = new ProjectileHandler2();
 //let fruitHandler = new ProjectileHandler2();
 
 
@@ -102,6 +103,7 @@ function animate(){
 
     display.update();
     display.draw();
+
 
     frameCounter++;
     requestAnimationFrame(animate);

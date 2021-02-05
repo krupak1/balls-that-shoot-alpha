@@ -7,6 +7,8 @@ class Weapon{
         this.color = 'black';
         this.projectileHandler = new ProjectileHandler2();
         this.type = 'semi-automatic';
+        this.targetX;
+        this.targetY;
     }
 
     update(){
@@ -29,6 +31,14 @@ class Weapon{
         if(numControls.num2 == true){
             this.type = 'automatic';
         }
+
+        if(numControls.num3 == true){
+            this.type = 'shotgun';
+        }
+
+        if(numControls.num4 == true){
+            this.type = 'gattling-gun';
+        }
         
         if(this.type == 'semi-automatic'){
             if(mouseLeft.click){
@@ -40,6 +50,20 @@ class Weapon{
         else if(this.type == 'automatic'){
             if(mouseLeft.click){
                     this.fire();
+            }
+        }
+
+        else if(this.type == 'gattling-gun'){
+            if(mouseLeft.click){
+                    this.fire();
+            }
+        }
+
+
+        else if(this.type == 'shotgun'){
+            if(mouseLeft.click){
+                this.fire();
+                mouseLeft.click = false;
             }
         }
     }
@@ -55,13 +79,54 @@ class Weapon{
 
     fire(){
         let ball = new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y);
+        ball.init();
+        
         if(this.type == 'automatic'){
+            let ball = new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y);
+            ball.init();
+            ball.weapon = this;
             ball.damage = 2;
+            this.projectileHandler.push(ball);
+        }
+        if(this.type == 'gattling-gun'){
+            
+            if(this.projectileHandler.projectiles.length < 15){
+                let ball = new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y);
+                ball.init();
+                ball.weapon = this;
+                ball.damage = 3;
+                this.projectileHandler.push(ball);
+            }
+
+            else if(frameCounter % 17){
+                let ball = new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y);
+                ball.init();
+                ball.weapon = this;
+                ball.damage = 3;
+                this.projectileHandler.push(ball);
+            }
         }
         if(this.type == 'semi-automatic'){
+            let ball = new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y);
+            ball.init();
             ball.damage = 10;
+            ball.weapon = this;
+            this.projectileHandler.push(ball);
         }
-        //this.projectileHandler.push(new Projectile(this.x, this.y, mouseLeft.x, mouseLeft.y));
-        this.projectileHandler.push(ball);
+        if(this.type == 'shotgun'){
+            let balls = [];
+            for(let x = 0; x < 8; x++){
+                balls[x] = new Projectile(this.x, this.y, mouseLeft.x+Math.random()*100 - 50, mouseLeft.y + Math.random()*100 - 50);
+                balls[x].init();
+                balls[x].damage = 6;
+                balls[x].weapon = this;
+                this.projectileHandler.push(balls[x]);
+            }
+
+            // ball.damage = 6;
+            // ball.weapon = this;
+            // this.projectileHandler.push(ball);
+        }
+
     }
 }

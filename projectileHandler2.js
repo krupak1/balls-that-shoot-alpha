@@ -21,6 +21,10 @@ class ProjectileHandler2{
 
                 else 
                 {
+                    // if(this.projectiles[x].weapon.type == 'gattling-gun'){
+                    //     this.projectiles[x].x += Math.random()*x - x/2;
+                    //     this.projectiles[x].y += Math.random()*x - x/2;
+                    // }
                     this.projectiles[x].draw();
                     this.projectiles[x].update();
                 }
@@ -30,8 +34,17 @@ class ProjectileHandler2{
 
 
     push(projectile){
+        projectile.handler = this;
         this.projectiles.push(projectile);
         //this.update();
+    }
+
+    checkProjectiles(projectile){
+        for(let x = 0; x < this.projectiles.length; x++){
+            if(this.projectiles[x] === projectile){
+                return 1;
+            }
+        }
     }
 
 }
