@@ -1,6 +1,6 @@
 
 class Projectile{
-    constructor(x, y, targetX, targetY){
+    constructor(x, y, targetX, targetY, damage, weapon){
         this.x = x;
         this.y = y;
         this.dx;
@@ -16,7 +16,7 @@ class Projectile{
         this.shieldX;
         this.shieldY;
         this.radius = 8;
-        this.damage = 3;
+        this.damage = damage;
         this.speed = 7;
         this.color = projectileGradient;
         this.dist;
@@ -26,7 +26,7 @@ class Projectile{
         this.type;
         this.text;
         this.duration = 600;
-        this.weapon = 'semi-automatic';
+        this.weapon = weapon;
         this.mobsHit;
         this.mobsHandler;
         this.handler;
@@ -36,7 +36,6 @@ class Projectile{
     init(){
         this.mobsHit = new ProjectileHandler2();
         this.mobsHandler = new MobHandler();
-
     }
     update(){
 
@@ -176,23 +175,31 @@ class Projectile{
             this.dist = Math.sqrt(this.dz*this.dz + this.dv*this.dv);
 
             if(this.type == 'self' && this.dist < this.radius + mobController.mobs[x].radius){
+                //Do damage if this is a character emitted projectile
                 mobController.mobs[x].takeDamage(this.damage, this.text);
                 this.collision = true;
             }
 
             else if(this.dist < this.radius + mobController.mobs[x].radius)
             {
+                //Check that this projectile is coming from a weapon
                 if(this.type != 'self'){
+
+                    //Check that this projectile has not already affected 6 unique mobs
                      if(this.mobsHit.projectiles.length < 6){
                  
+                        //Damage the mob
+                        mobController.mobs[x].projectile = this;
                         mobController.mobs[x].takeDamage(this.damage, this.text);
                         this.collision = true;
+
                         if(this.mobsHit.checkProjectiles(mobController.mobs[x]) != 1){
                             this.mobsHit.push(mobController.mobs[x]);
                         }
-            
+                        
                      }
                  }
+                 
             }
         }
     }

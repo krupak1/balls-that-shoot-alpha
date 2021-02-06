@@ -1,7 +1,7 @@
 class Mob{
     constructor(){
-        this.x = canvas.width/2;
-        this.y = canvas.height/2;
+        this.x;
+        this.y;
         this.radius = 30;
         this.health = 35;
         this.speed = 1;
@@ -13,34 +13,48 @@ class Mob{
         this.targetY;
         this.dead = false;
         this.hitsTaken = 0;
+        this.projectiles = [];
+        this.mobCollide;
+        this.dist;
+        this.dy;
+        this.dx;
     }
 
     takeDamage(damage, text){
-        if(this.hitsTaken < 6){
+        //limits how many hits it can take
+         if(this.hitsTaken < 5){
+            this.speed *= 0.95;
+         }
             this.health -= damage;
             mobController.damageTaken++;
             this.mobHitEffect(damage, text);
-        }
-        else this.hitsTaken++;
+            this.hitsTaken++;
     }
 
     update(){
 
+  
+
         const dx = this.x - playerCharacter.x;
         const dy = this.y - playerCharacter.y;
 
+        
         if(playerCharacter.x != this.x){
             this.x -= ((dx/500) * this.speed/2);
         }
         
         if(playerCharacter.y != this.y){
-            this.y -= ((dy/500) * this.speed/2);
+            this.y -= ((dy/500) * this.speed/4);
         }
+
+
     }
 
     emit(){
+        //Create a random number for use later
         const result = Math.random();
         
+        //Generates speed, health, and spawn point for the mob
         this.speed = (Math.random()*3)-1 + mobController.round;
         this.health += mobController.round;
 
@@ -72,9 +86,11 @@ class Mob{
     }
 
     mobHitEffect(damage, text){
-       // ctx.font = "80px Georgia";
+
+        //Draws DAMAGE text
+        
         ctx.font = "850 80px Impact, Charcoal, sans-serif";
-        // Create gradient
+
         let mobTextGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
         mobTextGradient.addColorStop("0"," green");
         mobTextGradient.addColorStop("0.5", "red");
@@ -82,22 +98,16 @@ class Mob{
         
         // Fill text
         ctx.fillStyle = mobTextGradient;
+
+        //Does not show damage if this is self emitted projectile
         if(text != 'self'){
             ctx.fillText("DAMAGE", this.x, this.y);
         }
-
-        // ctx.fillStyle = 'red';
-        // if(text == 'self'){
-        //     ctx.fillText("-" + this.damage, this.x, this.y-30)
-        // }
-
-
 
         ctx.fillStyle = mobGradient;
         ctx.beginPath();
         ctx.fill();
         ctx.closePath();
     }
-
 
 }

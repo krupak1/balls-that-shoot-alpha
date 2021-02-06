@@ -31,6 +31,10 @@ const mouseLeft = {
     click: false
 }
 
+const keyControls = {
+    r: false
+}
+
 const numControls = {
     num1: false,
     num2: false,
@@ -112,6 +116,7 @@ document.addEventListener('keydown', function(event){
         case 's': keyMovement.s = true; break;
         case 'd': keyMovement.d = true; break;
         case ' ': keyMovement.space = true; break;
+        case 'r': keyControls.r = true; break;
         case '1': numControls.num1 = true; break;
         case '2': numControls.num2 = true; break;
         case '3': numControls.num3 = true; break;
@@ -132,6 +137,7 @@ document.addEventListener('keyup', function(event){
         case 's': keyMovement.s = false; break;
         case 'd': keyMovement.d = false; break;
         case ' ': keyMovement.space = false; break;
+        case 'r': keyControls.r = false; break;
         case '1': numControls.num1 = false; break;
         case '2': numControls.num2 = false; break;
         case '3': numControls.num3 = false; break;

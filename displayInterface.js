@@ -3,12 +3,24 @@ class DisplayInterface{
         this.round = 0;
         this.score = 0;
         this.health = 0;
+        this.clip = 0;
+        this.ammo = 0;
+        this.weapon;
+        this.character;
     }
 
     update(){
         this.round = mobController.round;
         this.score = mobController.damageTaken;
         this.health = playerCharacter.health;
+        this.clip = playerCharacter.weapon.clip;
+        this.ammo = playerCharacter.weapon.ammo;
+        this.weapon = playerCharacter.weapon;
+        this.character = playerCharacter;
+
+        if(this.weapon.reloading){
+            this.drawReloading();
+        }
     }
 
     draw(){
@@ -37,6 +49,18 @@ class DisplayInterface{
 
         ctx.fillStyle = textGradient2;
         ctx.fillText("Health: " + this.health, canvas.width/2 - 200, 90);
+
+        ctx.font = "900 100px Arial";
+        ctx.fillStyle = 'black';
+        //ctx.fillStyle = textGradient;
+        ctx.fillText(this.clip + " / " + this.ammo, canvas.width/1.3, canvas.height - 100);
+    }
+
+    drawReloading(){
+        ctx.font = "900 100px Arial";
+        ctx.fillStyle = 'red';
+        //ctx.fillStyle = textGradient;
+        ctx.fillText('RELOADING', canvas.width/1.3, canvas.height - 175);
         
     }
 }

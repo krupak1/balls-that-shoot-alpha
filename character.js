@@ -16,9 +16,7 @@ class Character{
         this.collider;
     }
 
-
     update(){
-
         if(this.health < 1){
             alert("Score: " + display.score + " \nWaves Survived: " + display.round);
             window.location.reload();
@@ -71,7 +69,7 @@ class Character{
     
     pickupWeapon(weaponType){
         
-        this.weapon = new Weapon('basic', characterX, characterY, this.radius);
+        this.weapon = new Weapon('pistol', characterX, characterY, this.radius);
 
     }
     draw(){
@@ -86,7 +84,6 @@ class Character{
 
         for(let x = 0; x < mobController.mobs.length; x++)
          {
-         
              this.dz = this.x - mobController.mobs[x].x;
              this.dv = this.y - mobController.mobs[x].y;
      
@@ -104,7 +101,7 @@ class Character{
 
           
     drawHit(text){
-        let flash = new Projectile(this.x, this.y, this.x, this.y);
+        let flash = new Projectile(this.x, this.y, this.x, this.y, 5, 'self');
 
         flash.color = 'black';
         flash.radius = this.radius;
