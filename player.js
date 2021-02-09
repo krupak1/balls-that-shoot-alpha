@@ -2,7 +2,7 @@ class Player{
     constructor(playerId){
         this.x = canvas.width/2;
         this.y = canvas.height/2;
-        this.radius = 50;
+        this.radius = 20;
         this.angle = 0;
         this.frameX = 0;
         this.frameY = 0;

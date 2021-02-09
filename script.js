@@ -34,7 +34,7 @@ let hitTimer = 0;
 //Declarations --------------------------------------
 let playerShield = new Player(0);
 let playerCharacter = new Character(0, playerShield);
-playerCharacter.pickupWeapon('basic');
+playerCharacter.pickupWeapon('pistol');
 let proHandler = new ProjectileHandler2();
 let mobController = new MobHandler();
 let display = new DisplayInterface();
@@ -75,11 +75,17 @@ let projectileGradient = ctx.createLinearGradient(canvas.width, canvas.height, 2
 projectileGradient.addColorStop(1, "#49c1e6");
 projectileGradient.addColorStop(0, "#4f68b3");
 
-
 let mobGradient = ctx.createLinearGradient(playerCharacter.x, playerCharacter.y, 20, 19);
 mobGradient.addColorStop(1, "#452f56");
 mobGradient.addColorStop(0, "#655cc1");
 
+let mobOutlineGradient = ctx.createLinearGradient(playerCharacter.x, playerCharacter.y, 20, 19);
+mobOutlineGradient.addColorStop(1, "#ac97c7");
+mobOutlineGradient.addColorStop(0, "#cfc79f");
+
+let borderGradient = ctx.createLinearGradient(playerCharacter.x, playerCharacter.y, 20, 19);
+borderGradient.addColorStop(1, "#d6fffe");
+borderGradient.addColorStop(0, "#d6e3ff");
 
 // Animation Loop
 
@@ -97,6 +103,7 @@ function animate(){
     playerCharacter.weapon.update();
     playerCharacter.weapon.draw();
     playerCharacter.weapon.projectileHandler.update();
+    playerCharacter.weapon.slashHandler.update();
     hitEffects.update();
     playerShield.update();
     playerShield.draw();

@@ -14,6 +14,7 @@ class Character{
         this.weaponColor = 'black'; 
         this.collision = false;
         this.collider;
+        this.cash;
     }
 
     update(){
@@ -66,13 +67,19 @@ class Character{
         characterX = this.x;
         characterY = this.y;
     }
-    
     pickupWeapon(weaponType){
         
         this.weapon = new Weapon('pistol', characterX, characterY, this.radius);
+        this.weapon.character = this;
 
     }
     draw(){
+        ctx.fillStyle = borderGradient;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius+1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+
         ctx.fillStyle = characterGradient;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);

@@ -25,8 +25,9 @@ class ProjectileHandler2{
                     //     this.projectiles[x].x += Math.random()*x - x/2;
                     //     this.projectiles[x].y += Math.random()*x - x/2;
                     // }
-                    this.projectiles[x].draw();
+                    
                     this.projectiles[x].update();
+                    this.projectiles[x].draw();
                 }
             }
         }
@@ -36,7 +37,6 @@ class ProjectileHandler2{
     push(projectile){
         projectile.handler = this;
         this.projectiles.push(projectile);
-        //this.update();
     }
 
     checkProjectiles(projectile){

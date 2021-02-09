@@ -90,7 +90,7 @@ class Projectile{
     }
 
     draw(){
-        
+
         if(this.type == 'self')
         {
             ctx.font = "900 30px Arial-Black, Charcoal, sans-serif";
