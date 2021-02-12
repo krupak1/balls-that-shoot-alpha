@@ -4,8 +4,8 @@ class Mob{
         this.y;
         this.radius = 30;
         this.health = 35;
-        this.speed = 1;
-        this.damage = 1;
+        this.speed = 2;
+        this.damage = 0;
         this.color = mobGradient;
         this.hit = false;
         this.startTime = Date.now();
@@ -69,20 +69,20 @@ class Mob{
         this.health += mobController.round;
 
         if(result < 0.25){
-            this.x = 0;
-            this.y = Math.random()*canvas.height;
+            this.x = -50;
+            this.y = Math.random() * canvas.height;
         }
         else if(result > 0.75){
-            this.x = canvas.width;
-            this.y = Math.random()*canvas.height;
+            this.x = canvas.width + 50;
+            this.y = Math.random() * canvas.height;
         }
         else if (result < 0.5){
             this.x = Math.random() * canvas.width;
-            this.y = 0;
+            this.y = -50;
         }
         else if(result > 0.5){
             this.x = Math.random() * canvas.width;
-            this.y = canvas.height;
+            this.y = canvas.height + 50;
         }
 
     }

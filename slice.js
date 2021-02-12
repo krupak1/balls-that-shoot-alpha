@@ -1,5 +1,5 @@
 class Slice{
-    constructor(x, y, angle, damage, weapon, radius){
+    constructor(x, y, angle, damage, weapon, radius, duration){
         this.x = x;
         this.y = y;
         this.dx;
@@ -21,7 +21,7 @@ class Slice{
         this.collision = false;
         this.type = 'sword';
         this.text = 'sword';
-        this.duration = 120;
+        this.duration = duration;
         this.weapon = weapon;
         this.mobsHit;
         this.mobsHandler;
@@ -30,11 +30,12 @@ class Slice{
         this.lastX;
         this.lastY;
         this.theta;
-        this.range = 250;
+        this.range = 100;
         this.startX;
         this.startY;
         this.next;
         this.first;
+        this.emitted = false;
     }
 
     init(){
@@ -55,9 +56,9 @@ class Slice{
         let da = this.startX - this.x;
         let db = this.startY - this.y;
 
-        if(Math.abs(da) <= this.range*1.2 || Math.abs(db) <= this.range*1.2){
-            this.x -= this.radius*Math.cos(this.angle)/3;
-            this.y -= this.radius*Math.sin(this.angle)/3;
+        if(Math.abs(da) <= this.range && Math.abs(db) <= this.range){
+            this.x -= this.radius*Math.cos(this.angle)/1.5;
+            this.y -= this.radius*Math.sin(this.angle)/1.5;
         }
 
 
@@ -85,18 +86,11 @@ class Slice{
         
             ctx.strokeStyle = 'black';
             ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(this.startX, this.startY);
-            ctx.lineTo(this.x, this.y);
-            ctx.lineTo(this.next.x, this.next.y);
-            //ctx.lineTo(this.next.x, this.next.y);
-            ctx.lineTo(this.next.next.next.next.next.x, this.next.next.next.next.next.y);
-            ctx.closePath();
-            ctx.fill();
 
             ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
+            //ctx.moveTo(this.x, this.y);
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            //ctx.fill();
             ctx.stroke();
 
         }

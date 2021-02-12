@@ -1,18 +1,6 @@
+// let w = 0;
+// let h = 0;
 
-// const io = require('socket.io')();
-// io.on('connection', client => { });
-// io.listen(3000);
-
-function init(){
-    const canvas = document.getElementById('canvas1');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth - 3;
-    canvas.height = window.innerHeight - 3;
-    
-    let score = 0;
-    let gameFrame = 0; 
-    ctx.font = '50px Georgia';
-}
 
 function handleInit(msg)
 {
@@ -40,7 +28,7 @@ let mobController = new MobHandler();
 let display = new DisplayInterface();
 let hitEffects = new ProjectileHandler2();
 let proHandler2 = new ProjectileHandler2();
-//let fruitHandler = new ProjectileHandler2();
+let mainViewportManager = new viewportManager();
 
 
 
@@ -53,7 +41,6 @@ const gameState = {
 }
 let frameCounter = 0;
 let start = Date.now();
-
 
 
 
@@ -90,6 +77,8 @@ borderGradient.addColorStop(0, "#d6e3ff");
 // Animation Loop
 
 function animate(){
+    mainViewportManager.update();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = gradient;
 
@@ -116,4 +105,5 @@ function animate(){
     requestAnimationFrame(animate);
 }
 
+//init();
 animate();

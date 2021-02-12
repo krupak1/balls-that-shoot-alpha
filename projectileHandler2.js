@@ -14,7 +14,7 @@ class ProjectileHandler2{
             for(let x = 0; x < this.projectiles.length; x++)
             {
 
-                if(Date.now() - this.projectiles[x].startTime >= this.projectiles[x].duration)// || this.projectiles[x].collision == true)
+                if(Date.now() - this.projectiles[x].startTime >= this.projectiles[x].duration)
                 {
                     this.projectiles.splice(x, 1);
                 }

@@ -10,6 +10,7 @@ class Weapon{
         this.type = weaponType;
         this.targetX;
         this.targetY;
+        this.damage = 10;
         this.ammo = 60;
         this.clip = 12;
         this.clipSize = 12;
@@ -18,6 +19,14 @@ class Weapon{
         this.reloading = false;
         this.character;
 
+        this.slashing = false;
+        this.slashTime;
+        this.slashDuration = 120;
+        this.slice1;
+        this.slice2;
+        this.slice3;
+        this.slice4;
+        this.slice5;
     }
 
     update(){
@@ -26,6 +35,10 @@ class Weapon{
                 this.reload();
             }
         }
+        if(this.slashing == true){
+            this.slashAttack();
+        }
+
         const dx = this.x - mouseLeft.x;
         const dy = this.y - mouseLeft.y;
         // let theta = Math.atan2(dy, dx);
@@ -73,9 +86,18 @@ class Weapon{
                 }
             }
         }
+
+        // if(mouseRight.click){
+        // //    if(this.type == 'sword'){
+        //         this.slashTime = Date.now();
+        //         this.slash();
+        //         mouseRight.click = false;
+        //     //}
+        // }
         
     if(mouseLeft.click){
         if(this.type == 'sword'){
+            this.slashTime = Date.now();
             this.slash();
             mouseLeft.click = false;
         }
@@ -182,33 +204,59 @@ class Weapon{
     }
 
     slash(){
-        if(this.type == 'sword'){
+        //if(this.type == 'sword'){
             let dx = this.x - mouseLeft.x;
             let dy = this.y - mouseLeft.y;
             this.angle = Math.atan2(dy, dx);
             
-            let slice1 = new Slice(this.x, this.y, this.angle, 10, this, 50);
-            let slice2 = new Slice(this.x, this.y, this.angle-0.5, 10, this, 40);
-            let slice3 = new Slice(this.x, this.y, this.angle+0.5, 10, this, 40);
-            let slice4 = new Slice(this.x, this.y, this.angle-1, 10, this, 40);
-            let slice5 = new Slice(this.x, this.y, this.angle+1, 10, this, 40);
-            slice1.init();
-            slice2.init();
-            slice3.init();
-            slice4.init();
-            slice5.init();
-            slice1.type = 'sword';
-            slice2.type = 'sword';
-            slice3.type = 'sword';
-            slice4.type = 'sword';
-            slice5.type = 'sword';
-            this.slashHandler.push(slice4);
-            this.slashHandler.push(slice2);
-            this.slashHandler.push(slice1);
-            this.slashHandler.push(slice3);
-            this.slashHandler.push(slice5);
+            //Order 4 2 1 3 5 
+            this.slice4 = new Slice(this.x, this.y, this.angle-1, 5, this, 75, this.slashDuration);
+            this.slice2 = new Slice(this.x, this.y, this.angle-0.5, 5, this, 75, this.slashDuration+30);
+            this.slice1 = new Slice(this.x, this.y, this.angle, 5, this, 75, this.slashDuration+60);
+            this.slice3 = new Slice(this.x, this.y, this.angle+0.5, 5, this, 75, this.slashDuration+90);
+            this.slice5 = new Slice(this.x, this.y, this.angle+1, 5, this, 75, this.slashDuration+120);
+
+            this.slice1.init();
+            this.slice2.init();
+            this.slice3.init();
+            this.slice4.init();
+            this.slice5.init();
+
+            this.slice1.type = 'sword';
+            this.slice2.type = 'sword';
+            this.slice3.type = 'sword';
+            this.slice4.type = 'sword';
+            this.slice5.type = 'sword';
+
+            this.slashing = true;
+        
             
+      //  }
+    }
+
+    slashAttack(){
+        if(Date.now() - this.slashTime >= 0 && this.slice4.emitted == false){
+            this.slashHandler.push(this.slice4);
+            this.slice4.emitted = true;
         }
+        if(Date.now() - this.slashTime >= this.slashDuration-100 && this.slice2.emitted == false){
+            this.slashHandler.push(this.slice2);
+            this.slice2.emitted = true;
+        }
+        if(Date.now() - this.slashTime >= this.slashDuration-75 && this.slice1.emitted == false){
+            this.slashHandler.push(this.slice1);
+            this.slice1.emitted = true;
+        }
+        if(Date.now() - this.slashTime >= this.slashDuration-50 && this.slice3.emitted == false){
+            this.slashHandler.push(this.slice3);
+            this.slice3.emitted = true;
+        }
+        if(Date.now() - this.slashTime >= this.slashDuration-25 && this.slice5.emitted == false){
+            this.slashHandler.push(this.slice5);
+            this.slice5.emitted = true;
+            this.slashing = false;
+        }
+
     }
 
     reload(){

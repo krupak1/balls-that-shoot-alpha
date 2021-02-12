@@ -3,34 +3,54 @@ class MobHandler {
         this.mobs = [];
         this.tempMobs = [];
         this.round = 0;
-        this.startTime = Date.now();
+        this.lastTime = Date.now();
         this.damageTaken = 0;
-        this.interval;
+        this.spawnRate = 500;
     }
 
     update() {
 
         this.checkHealth();
-        // this.checkCollision();
-        this.interval = Date.now();
-
-        if (this.mobs.length < 1) {
+        console.log(this.spawnRate);
+        //Set mob opponents for the round, spawn rates
+        if (this.tempMobs.length < 1 && this.mobs.length < 1) {
             this.round++;
 
+            if(this.round < 11){
+                this.spawnRate -= 20;
+            }
+            else if(this.round >= 11 && this.round <= 25){
+                this.spawnRate -= 10;
+            }
+
             //This is going to create mobs for the round into a temporary array
-            for (let x = 0; x < this.round * 2; x++) {
+            for (let x = 0; x < (this.round * 3) + 5; x++) {
                 this.tempMobs.push(new Mob());
             }
-        }
-        //Goes through the temp array and sets mob stats before sending them to the actual array
-        if (this.tempMobs.length > 0) {
-            this.tempMobs[0].emit(); //Gives it the spawn coordinates
-            this.tempMobs[0].health += this.round * 2; //Adjusts health for round
-            this.mobs.push(this.tempMobs[0]); //Sends it to the actual mob array
-            this.tempMobs.splice(0, 1); //Removes from temp
+            console.log(this.spawnRate);
         }
 
+        /*
+        * Check:
+        *
+        *  
+        *
+        */
 
+        //else if(this.tempMobs.length < 0 && 
+        if(this.tempMobs.length > 0){
+            if ((Date.now() - this.lastTime) > this.spawnRate) {
+                this.tempMobs[0].emit(); //Gives it the spawn coordinates
+                this.tempMobs[0].health += this.round * 2; 
+                this.tempMobs[0].damage += this.round *2;
+                this.mobs.push(this.tempMobs[0]); //Sends it to the actual mob array
+                this.tempMobs.splice(0, 1); //Removes from temp
+                this.lastTime = Date.now();
+            }
+        }
+    
+
+        //Draw and update all mobs in the array
         for (let x = 0; x < this.mobs.length; x++) {
             this.mobs[x].draw();
             this.mobs[x].update();

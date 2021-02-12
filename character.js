@@ -3,11 +3,11 @@ class Character{
     constructor(playerId){
         this.x = canvas.width/2;
         this.y = canvas.height/2;
-        this.radius = 25;
+        this.radius = 15;
         this.angle = 0;
         this.health = 100;
         this.color = characterColors[playerId];
-        this.speed = 3;
+        this.speed = 4;
         this.weapon = 'basic';
         this.weaponX = this.x;
         this.weaponY = this.y;
@@ -20,8 +20,8 @@ class Character{
     update(){
         if(this.health < 1){
             alert("Score: " + display.score + " \nWaves Survived: " + display.round);
+            alert("Chrome users refresh now, do not click OK unless using firefox.");
             window.location.reload();
-            //init();
         }
         let speedModifier = (this.speed/Math.E);
         const dx = this.x - playerShield.x;
@@ -29,31 +29,24 @@ class Character{
 
         this.checkCollision();
 
-        // if(this.collision == true){
-        //     this.color = 'black';
-        // }
+        let i = 5;
         if(keyMovement.w)
         {
-            for(let i = 0; i < 5; i++)
-            {
             this.y -= (speedModifier*i);
-            }
         }
         if(keyMovement.s)
         {
-            for(let i = 0; i < 5; i++)
             this.y += (speedModifier*i);
         }
         if(keyMovement.a)
         {
-            for(let i = 0; i < 5; i++)
             this.x -= (speedModifier*i);
         }
         if(keyMovement.d)
         {
-            for(let i = 0; i < 5; i++)
             this.x += (speedModifier*i);
         }
+        
         if(keyMovement.space)
         {
             if(playerShield.x != this.x){
@@ -62,10 +55,10 @@ class Character{
             if(playerShield.y != this.y){
                 this.y -= dy/4;
             }
-    
         }
         characterX = this.x;
         characterY = this.y;
+        this.checkBounds();
     }
     pickupWeapon(weaponType){
         
@@ -85,8 +78,24 @@ class Character{
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
+
+
     }
 
+    checkBounds(){
+        if(this.x >= mainViewportManager.w){
+            this.x -= 11;
+        }
+        if(this.x <= 0){
+            this.x += 11;
+        }
+        if(this.y >= mainViewportManager.h){
+            this.y -= 11;
+        }
+        if(this.y <= 0){
+            this.y += 11;
+        }
+    }
     checkCollision(){
 
         for(let x = 0; x < mobController.mobs.length; x++)
@@ -99,7 +108,7 @@ class Character{
              if(this.dist < this.radius + mobController.mobs[x].radius)
              {
                  this.collision = true;
-                 this.takeDamage();
+                 this.takeDamage(mobController.mobs[x].damage);
                  mobController.mobs[x].x += Math.random()*5 - 2.5;
                  mobController.mobs[x].y += Math.random()*5 - 2.5;
              }
@@ -126,7 +135,7 @@ class Character{
     }
 
      takeDamage(damage){
-         this.health--;
+         this.health -= damage;
         // this.radius--;
          this.x += Math.random()*5 - 2.5;
          this.y += Math.random()*5 - 2.5;
